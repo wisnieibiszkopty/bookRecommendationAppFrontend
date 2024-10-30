@@ -1,12 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import {tap} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  apiPath: string = "localhost:8080/api/users/login";
+  // TODO Global api path
+
+  apiPath: string = "http://localhost:8080/api/auth/login";
 
   jwtToken: string = '';
 
@@ -14,11 +17,23 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   login(email: string, password: string){
-    this.http.post(this.apiPath, {
+    return this.http.post(this.apiPath, {
       email: email,
       password: password
-    }).subscribe(res => {
-      console.log(res);
-    });
+    }).pipe(
+      tap(res => {
+        console.log(res);
+    }));
+  }
+
+  register(name: string, email: string, password: string){
+    return this.http.post("http://localhost:8080/api/auth/register", {
+      name: name,
+      email: email,
+      password: password
+    }).pipe(
+      tap(res => {
+        console.log(res);
+    }));
   }
 }

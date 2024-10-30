@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
+import {UserService} from '../../../services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -17,15 +18,23 @@ export class LoginComponent {
 
   loginForm: FormGroup;
 
-  constructor(private fb: FormBuilder){
+  constructor(private fb: FormBuilder, private userService: UserService){
     this.loginForm = this.fb.group({
       email: [''],
       password: ['']
     });
   }
 
+  // TODO handle interface change
+
   onSubmit(){
-      console.log('test');
+    this.userService.login(
+      this.loginForm.get('email')?.value,
+      this.loginForm.get('password')?.value
+    ).subscribe(res => {
+      console.log(res);
+      this.emitVisibilityChange();
+    });
   }
 
   showDialog() {
