@@ -1,0 +1,13 @@
+.flex-container {
+  display: flex;
+  width: 100%;
+}
+
+.flex-container p-card {
+  flex: 7;
+  margin-right: 10px;
+}
+
+.flex-container app-comments {
+  flex: 3;
+}

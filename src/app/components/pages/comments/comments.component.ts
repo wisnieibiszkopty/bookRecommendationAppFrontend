@@ -5,7 +5,9 @@ import {FloatLabelModule} from 'primeng/floatlabel';
 import {FormsModule} from '@angular/forms';
 import {Button} from 'primeng/button';
 import {InputTextModule} from 'primeng/inputtext';
-import {CommentItemComponent} from '../../comments/comment-item/comment-item.component';
+import {CommentItemComponent, EditedComment} from '../../comments/comment-item/comment-item.component';
+import {UserService} from '../../../services/user.service';
+import {NgIf} from '@angular/common';
 
 
 @Component({
@@ -16,8 +18,8 @@ import {CommentItemComponent} from '../../comments/comment-item/comment-item.com
     FormsModule,
     Button,
     InputTextModule,
-    CommentItemComponent
-
+    CommentItemComponent,
+    NgIf
   ],
   templateUrl: './comments.component.html',
   styleUrl: './comments.component.scss'
@@ -28,7 +30,9 @@ export class CommentsComponent implements OnInit{
 
   comments = signal<Comment[]>([]);
 
-  constructor(private commentService: CommentService) {
+  loggedIn = signal<boolean>(false);
+
+  constructor(private commentService: CommentService, private userService: UserService) {
   }
 
   ngOnInit() {
@@ -36,12 +40,30 @@ export class CommentsComponent implements OnInit{
       console.log(comments);
       this.comments.set(comments);
     });
+
+    this.userService.loggedIn$.subscribe(loggedIn => {
+      this.loggedIn.set(loggedIn);
+    });
   }
 
   addComment(){
     this.commentService.addComment(this.bookId, this.newComment).subscribe(comment => {
       this.comments.update(comments => [...comments, comment]);
       this.newComment = "";
+    });
+  }
+
+  editComment(comment: EditedComment){
+    console.log(comment);
+    this.commentService.editComment(comment, this.bookId).subscribe(comment => {
+      this.comments.update(comments =>
+        comments.map(c => c.id === comment.id ? { ...c, ...comment } : c));
+    });
+  }
+
+  deleteComment(comment: Comment){
+    this.commentService.deleteComment(this.bookId, comment.id).subscribe(_ => {
+      this.comments.update(comments => comments.filter(c => c.id !== comment.id));
     });
   }
 

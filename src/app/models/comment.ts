@@ -3,5 +3,6 @@ export interface Comment {
   content: string;
   date: Date;
   userId: number;
+  userName: string;
   bookId: number;
 }

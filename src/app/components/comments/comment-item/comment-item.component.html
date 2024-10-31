@@ -1,0 +1,19 @@
+<!-- Todo get name of comment author from api-->
+<p-card header="{{comment?.userName}}  {{comment?.date}}">
+  @if(editing()){
+    <textarea
+      rows="5"
+      cols="30"
+      pInputTextarea
+      [(ngModel)]="editedComment">
+    </textarea>
+    <p-button label="Cancel" (click)="editing.set(false)"></p-button>
+    <p-button label="Edit" (click)="editComment()"></p-button>
+  } @else {
+    <p class="m-0">{{comment?.content}}</p>
+  }
+  @if(loggedIn() && userService.getUser()?.id === comment?.userId){
+    <p-tag (click)="showEditForm()" severity="info" value="Edit"/>
+    <p-tag (click)="deleteComment()" severity="danger" value="Delete"/>
+  }
+</p-card>
