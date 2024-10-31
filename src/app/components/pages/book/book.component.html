@@ -1,0 +1,29 @@
+<div>
+  <p-toolbar>
+    <div>
+      <p-button (onClick)="op.toggle($event)" label="Add to shelve" icon="pi pi-add" />
+      <p-overlayPanel #op>
+        <div class="flex flex-column gap-3 w-25rem">
+          <h1>Select shelf</h1>
+
+        </div>
+      </p-overlayPanel>
+    </div>
+    <div class="p-toolbar-group-start">
+      <!--   Show only if user added book   -->
+      <p-button icon="pi pi-pencil" class="mr-2"/>
+      <p-button icon="pi pi-trash" class="mr-2"/>
+    </div>
+  </p-toolbar>
+  <div>
+    <p-card header="{{book()?.name}}" subheader="{{book()?.author}}" [style]="{ width: '360px' }">
+      <ng-template pTemplate="header">
+        <img alt="Card" src="https://primefaces.org/cdn/primeng/images/card-ng.jpg" />
+      </ng-template>
+      <p>
+        {{ book()?.description }}
+      </p>
+    </p-card>
+
+  </div>
+</div>

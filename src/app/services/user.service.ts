@@ -1,39 +1,84 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import {tap} from 'rxjs';
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {BehaviorSubject, Subject, tap} from 'rxjs';
+import {environment} from '../../environment';
+
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  // TODO Global api path
+  private jwtToken: string = '';
+  private userSubject = new BehaviorSubject<User | null>(null);
+  private loggedInSubject = new BehaviorSubject<boolean>(false);
 
-  apiPath: string = "http://localhost:8080/api/auth/login";
+  user$ = this.userSubject.asObservable();
+  loggedIn$ = this.loggedInSubject.asObservable();
 
-  jwtToken: string = '';
+  getUser(): User | null{
+    return this.userSubject.getValue();
+  }
 
+  getLoggedIn(): boolean{
+    return this.loggedInSubject.getValue();
+  }
+
+  getToken(): string{
+    return this.jwtToken;
+  }
 
   constructor(private http: HttpClient) { }
 
   login(email: string, password: string){
-    return this.http.post(this.apiPath, {
+    return this.http.post(environment.api + "auth/login", {
       email: email,
       password: password
     }).pipe(
-      tap(res => {
-        console.log(res);
+      tap((res: any) => {
+        this.handleToken(res.jwt);
     }));
   }
 
   register(name: string, email: string, password: string){
-    return this.http.post("http://localhost:8080/api/auth/register", {
+    return this.http.post(environment.api + "auth/register", {
       name: name,
       email: email,
       password: password
     }).pipe(
-      tap(res => {
-        console.log(res);
+      tap((res: any) => {
+        this.handleToken(res.jwt);
     }));
+  }
+
+  logout(){
+    this.jwtToken = '';
+    this.loggedInSubject.next(false);
+  }
+
+  private handleToken(jwt: string){
+    this.jwtToken = jwt;
+    const payload = this.extractJwt(jwt);
+    console.log(payload);
+    const user: User = {
+      id: payload.id,
+      name: payload.name,
+      email: payload.sub
+    };
+
+    console.log(user);
+
+    this.userSubject.next(user);
+    this.loggedInSubject.next(true);
+  }
+
+  private extractJwt(jwt: string){
+    const tokenArray = jwt.split('.');
+    return JSON.parse(atob(tokenArray[1]));
   }
 }

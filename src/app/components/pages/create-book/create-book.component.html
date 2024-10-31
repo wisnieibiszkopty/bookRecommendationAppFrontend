@@ -1,0 +1,39 @@
+<div class="form-container">
+  <form [formGroup]="bookForm" (ngSubmit)="onSubmit()">
+    <div class="p-fluid">
+      <div class="p-field">
+        <label for="name">Name</label>
+        <input id="name" pInputText formControlName="name" placeholder="Enter book name" />
+      </div>
+
+      <div class="p-field">
+        <label for="author">Author</label>
+        <input id="author" pInputText formControlName="author" placeholder="Enter author name" />
+      </div>
+
+      <div class="p-field">
+        <label for="description">Description</label>
+        <textarea id="description" pInputTextarea formControlName="description" rows="3" placeholder="Enter book description"></textarea>
+      </div>
+
+      <div class="p-field">
+        <label for="pages">Pages</label>
+        <input id="pages" type="number" pInputText formControlName="pages" placeholder="Enter number of pages" />
+      </div>
+
+      <div class="p-field">
+        <label for="releaseYear">Release Year</label>
+        <input id="releaseYear" type="number" pInputText formControlName="releaseYear" placeholder="Enter release year" />
+      </div>
+
+      <div class="p-field">
+        <label for="image">Image URL</label>
+        <input id="image" pInputText formControlName="image" placeholder="Enter image URL" />
+      </div>
+
+      <div class="p-field">
+        <button type="submit" pButton label="Submit" icon="pi pi-check"></button>
+      </div>
+    </div>
+  </form>
+</div>

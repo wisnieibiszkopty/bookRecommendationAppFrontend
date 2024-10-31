@@ -3,11 +3,12 @@ import { MenuItem } from 'primeng/api';
 import { MenubarModule } from 'primeng/menubar';
 import { LoginComponent } from '../../auth/login/login.component';
 import {RegisterComponent} from '../../auth/register/register.component';
+import {NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [MenubarModule, LoginComponent, RegisterComponent],
+  imports: [MenubarModule, LoginComponent, RegisterComponent, NgIf],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
 })
@@ -18,11 +19,11 @@ export class NavbarComponent {
   items: MenuItem[] = [
       {
         label: "Books",
-        route: '/books'
+        route: 'books'
       },
       {
         label: "Shelf",
-        route: '/shelves'
+        route: 'shelves'
       },
       {
         label: "Login",
