@@ -5,7 +5,7 @@ import {FloatLabelModule} from 'primeng/floatlabel';
 import {FormsModule} from '@angular/forms';
 import {Button} from 'primeng/button';
 import {InputTextModule} from 'primeng/inputtext';
-import {CommentItemComponent, EditedComment} from '../../comments/comment-item/comment-item.component';
+import {CommentItemComponent, EditedComment} from '../comment-item/comment-item.component';
 import {UserService} from '../../../services/user.service';
 import {NgIf} from '@angular/common';
 

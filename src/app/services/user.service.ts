@@ -34,7 +34,9 @@ export class UserService {
     return this.jwtToken;
   }
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    this.loadTokenFromStorage();
+  }
 
   login(email: string, password: string){
     return this.http.post(environment.api + "auth/login", {
@@ -59,13 +61,15 @@ export class UserService {
 
   logout(){
     this.jwtToken = '';
+    localStorage.removeItem('jwtToken');
+    this.userSubject.next(null);
     this.loggedInSubject.next(false);
   }
 
   private handleToken(jwt: string){
     this.jwtToken = jwt;
+    localStorage.setItem('jwtToken', jwt);
     const payload = this.extractJwt(jwt);
-    console.log(payload);
     const user: User = {
       id: payload.id,
       name: payload.name,
@@ -81,5 +85,13 @@ export class UserService {
   private extractJwt(jwt: string){
     const tokenArray = jwt.split('.');
     return JSON.parse(atob(tokenArray[1]));
+  }
+
+  private loadTokenFromStorage() {
+    const token = localStorage.getItem('jwtToken');
+    if (token) {
+      this.jwtToken = token;
+      this.handleToken(token);
+    }
   }
 }

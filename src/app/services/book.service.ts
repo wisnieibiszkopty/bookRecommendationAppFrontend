@@ -24,4 +24,12 @@ export class BookService {
     return this.http.post(environment.api + 'books', book);
   }
 
+  editBook(book: Book): Observable<Book>{
+    return this.http.put<Book>(environment.api + 'books', book);
+  }
+
+  deleteBook(id: string | number){
+    return this.http.delete(environment.api + "books/" + id);
+  }
+
 }

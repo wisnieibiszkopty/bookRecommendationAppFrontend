@@ -19,12 +19,25 @@
   <div class="w-9/10">
     @if(selectedShelf()){
       <div class="flex">
-        <p-button icon="pi pi-pencil" class="mr-2"/>
+        <p-button (click)="editShelf()" icon="pi pi-pencil" class="mr-2"/>
         <p-button (click)="deleteShelf(selectedShelf()!)" icon="pi pi-trash" class="mr-2"/>
       </div>
-      {{selectedShelf()?.name}}
+      <h1>{{selectedShelf()?.name}}</h1>
+      <app-shelve [books]="selectedShelf()?.books!" (delete)="deleteBookFromShelf($event)"></app-shelve>
     } @else {
       <h1>No shelf selected</h1>
     }
   </div>
 </div>
+
+<p-dialog header="Edit shelf" [modal]="true" [(visible)]="editingName" [style]="{ width: '25rem' }">
+  <span class="p-text-secondary block mb-5">Update your information.</span>
+  <div class="flex align-items-center gap-3 mb-3">
+    <label for="name" class="font-semibold w-6rem">Name</label>
+    <input pInputText id="name" class="flex-auto" autocomplete="off" [(ngModel)]="shelfName"/>
+  </div>
+  <div class="flex justify-content-end gap-2">
+    <p-button label="Cancel" severity="secondary" (onClick)="editingName=false" />
+    <p-button label="Edit shelf name" (onClick)="submitEditedShelf()" />
+  </div>
+</p-dialog>

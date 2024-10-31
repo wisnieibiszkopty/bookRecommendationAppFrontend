@@ -30,7 +30,7 @@ export class CreateBookComponent {
       name: ['', Validators.required],
       author: ['', Validators.required],
       description: [''],
-      pages: [0, [Validators.required, Validators.min(1)]],
+      pages: ['', [Validators.required, Validators.min(1)]],
       releaseYear: [new Date().getFullYear(), [Validators.required, Validators.min(-2100), Validators.max(new Date().getFullYear())]],
       image: ['']
     });
@@ -40,7 +40,7 @@ export class CreateBookComponent {
     if (this.bookForm.valid) {
       console.log(this.bookForm.value);
       this.bookService.createBook(this.bookForm.value).subscribe(book => {
-        this.router.navigate(['/books', 1]);
+        this.router.navigate(['/books', book.id]);
       });
     } else {
       console.log("Form is invalid");

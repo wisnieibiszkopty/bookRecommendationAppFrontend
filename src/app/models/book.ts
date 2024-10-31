@@ -6,4 +6,5 @@ export interface Book{
   pages: number;
   releaseYear: number;
   image?: string;
+  addedBy: number;
 }

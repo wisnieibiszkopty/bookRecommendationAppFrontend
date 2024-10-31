@@ -1,1 +1,14 @@
-<p>shelve works!</p>
+@for(book of books; track book){
+  <p-button label="Delete" (click)="delete.emit(book.id)"></p-button>
+  <p-card class="book-card">
+    <ng-template pTemplate="header">
+      <img src="https://primefaces.org/cdn/primeng/images/card-ng.jpg" alt="{{ book.name }}" class="book-image" />
+    </ng-template>
+    <ng-template pTemplate="title">
+      <h2>{{ book.name }}</h2>
+    </ng-template>
+    <ng-template pTemplate="subtitle">
+      <p>{{ book.author }}</p>
+    </ng-template>
+  </p-card>
+}

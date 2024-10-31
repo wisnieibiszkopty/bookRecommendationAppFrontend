@@ -2,7 +2,6 @@ import {Component, EventEmitter, Input, Output, signal} from '@angular/core';
 import {Comment} from '../../../models/comment';
 import {CardModule} from 'primeng/card';
 import {TagModule} from 'primeng/tag';
-import {CommentService} from '../../../services/comment.service';
 import {UserService} from '../../../services/user.service';
 import {FormsModule} from '@angular/forms';
 import {InputTextareaModule} from 'primeng/inputtextarea';

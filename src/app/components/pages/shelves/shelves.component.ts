@@ -9,6 +9,8 @@ import {Shelf} from '../../../models/shelf';
 import {UserService} from '../../../services/user.service';
 import {CardModule} from 'primeng/card';
 import {DividerModule} from 'primeng/divider';
+import {DialogModule} from 'primeng/dialog';
+import {ShelveComponent} from '../shelve/shelve.component';
 
 @Component({
   selector: 'app-shelves',
@@ -20,7 +22,9 @@ import {DividerModule} from 'primeng/divider';
     InputTextModule,
     FormsModule,
     CardModule,
-    DividerModule
+    DividerModule,
+    DialogModule,
+    ShelveComponent
   ],
   templateUrl: './shelves.component.html',
   styleUrl: './shelves.component.scss'
@@ -28,8 +32,9 @@ import {DividerModule} from 'primeng/divider';
 export class ShelvesComponent implements OnInit{
   // for adding new shelve
   shelfName: string = '';
-  selectedShelf = signal<Shelf | null>(null);
+  editingName = false;
 
+  selectedShelf = signal<Shelf | null>(null);
   shelves = signal<Shelf[]>([]);
 
   constructor(private shelfService: ShelfService, private userService: UserService) {
@@ -55,16 +60,29 @@ export class ShelvesComponent implements OnInit{
     })
   }
 
-  editShelf(shelf: Shelf){
+  editShelf(){
+    this.shelfName = this.selectedShelf()?.name!;
+    this.editingName = true;
+  }
 
+  submitEditedShelf(){
+    this.shelfService.editShelf(this.selectedShelf()?.id!, this.shelfName).subscribe(shelf => {
+      console.log(shelf);
+      this.shelves.update(shelves => shelves.map(s => s.id === shelf.id ? { ...s, ...shelf } : s));
+      console.log(this.shelves());
+      this.editingName=false;
+    });
   }
 
   deleteShelf(shelf: Shelf){
     this.shelfService.deleteShelf(shelf.id).subscribe(_ => {
-      // not deleting record from list
       this.shelves.update(shelves => shelves.filter(s => s.id !== shelf.id));
     });
     this.selectedShelf.set(null);
+  }
+
+  deleteBookFromShelf(id: number){
+
   }
 
 }
