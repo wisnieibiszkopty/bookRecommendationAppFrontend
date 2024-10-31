@@ -1,1 +1,12 @@
-<p>comments works!</p>
+<div class="flex">
+  <p-floatLabel>
+    <input pInputText id="comment" [(ngModel)]="newComment" />
+    <label for="comment">Comment</label>
+  </p-floatLabel>
+  <p-button (click)="addComment()" label="Add comment"></p-button>
+</div>
+<div>
+  @for(comment of comments(); track comment){
+    <app-comment-item [comment]="comment"></app-comment-item>
+  }
+</div>

@@ -8,6 +8,7 @@ import {ToolbarModule} from 'primeng/toolbar';
 import {Button} from 'primeng/button';
 import {InputTextModule} from 'primeng/inputtext';
 import {OverlayPanelModule} from 'primeng/overlaypanel';
+import {CommentsComponent} from '../comments/comments.component';
 
 @Component({
   selector: 'app-book',
@@ -17,7 +18,8 @@ import {OverlayPanelModule} from 'primeng/overlaypanel';
     ToolbarModule,
     Button,
     InputTextModule,
-    OverlayPanelModule
+    OverlayPanelModule,
+    CommentsComponent
   ],
   templateUrl: './book.component.html',
   styleUrl: './book.component.scss'
@@ -27,7 +29,7 @@ export class BookComponent implements OnInit{
 
   isLoggedIn = signal<boolean>(false);
 
-  constructor(private route: ActivatedRoute, private bookService: BookService, private userService: UserService) {
+  constructor(protected route: ActivatedRoute, private bookService: BookService, private userService: UserService) {
     const id = route.snapshot.paramMap.get('id')
     console.log(route.snapshot.paramMap.get('id'));
     this.bookService.getBook(id!).subscribe(book => {

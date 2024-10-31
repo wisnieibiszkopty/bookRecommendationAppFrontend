@@ -4,6 +4,7 @@ import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import {UserService} from '../../../services/user.service';
+import {MessageService} from 'primeng/api';
 
 @Component({
   selector: 'app-login',
@@ -43,5 +44,6 @@ export class LoginComponent {
 
   emitVisibilityChange(){
     this.visibleChange.emit(false);
+    this.visible = false;
   }
 }

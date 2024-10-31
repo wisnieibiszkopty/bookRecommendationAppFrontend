@@ -5,6 +5,7 @@ import {InputTextModule} from "primeng/inputtext";
 import {PaginatorModule} from "primeng/paginator";
 import {FormBuilder, FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {UserService} from '../../../services/user.service';
+import {MessageService} from 'primeng/api';
 
 @Component({
   selector: 'app-register',

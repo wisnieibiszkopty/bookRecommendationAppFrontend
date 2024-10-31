@@ -2,6 +2,7 @@ import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Subject, tap} from 'rxjs';
 import {environment} from '../../environment';
+import {MessageService} from 'primeng/api';
 
 export interface User {
   id: string;
@@ -10,7 +11,7 @@ export interface User {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
 
