@@ -6,8 +6,10 @@ import {ShelvesComponent} from './components/pages/shelves/shelves.component';
 import {ShelveComponent} from './components/pages/shelve/shelve.component';
 import {authGuard} from './components/auth/auth.guard';
 import {EditBookComponent} from './components/pages/edit-book/edit-book.component';
+import {CreateRecommendationComponent} from './components/pages/create-recommendation/create-recommendation.component';
+import {EditRecommendationComponent} from './components/pages/edit-recommendation/edit-recommendation.component';
 
-// when entering edit check if user is one who created book
+// when entering edit check if user is one who created book / recommendation
 
 export const routes: Routes = [
     {
@@ -31,6 +33,16 @@ export const routes: Routes = [
     {
       path: 'shelves',
       component: ShelvesComponent,
+      canActivate: [authGuard]
+    },
+    {
+      path: 'recommendations',
+      component: CreateRecommendationComponent,
+      canActivate: [authGuard]
+    },
+    {
+      path: 'recommendations/:id/edit',
+      component: EditRecommendationComponent,
       canActivate: [authGuard]
     }
 ];

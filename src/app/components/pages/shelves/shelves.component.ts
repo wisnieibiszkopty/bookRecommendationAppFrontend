@@ -82,7 +82,14 @@ export class ShelvesComponent implements OnInit{
   }
 
   deleteBookFromShelf(id: number){
-
+    this.shelfService.deleteBookFromShelf(this.selectedShelf()?.id!, id)
+      .subscribe(_ => {
+        const updatedBooks = this.selectedShelf()?.books!.filter(book => book.id !== id);
+        this.selectedShelf.set({
+          ...this.selectedShelf()!,
+          books: updatedBooks!
+        });
+      })
   }
 
 }

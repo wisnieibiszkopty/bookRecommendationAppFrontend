@@ -1,1 +1,3 @@
-<h1>Recommendations</h1>
+@if(userService.getLoggedIn()){
+  <p-button routerLink="/recommendations" label="Add new recommendation"></p-button>
+}

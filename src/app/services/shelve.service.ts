@@ -36,7 +36,7 @@ export class ShelfService {
     return this.http.delete(environment.api + 'shelves/' + id);
   }
 
-  deleteBookFromShelf(id: string | number){
-
+  deleteBookFromShelf(shelfId: string | number, bookId: string | number){
+    return this.http.delete(environment.api + "shelves/" + shelfId + "/book/" + bookId);
   }
 }

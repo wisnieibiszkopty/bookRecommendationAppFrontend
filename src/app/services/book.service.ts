@@ -1,13 +1,27 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Book} from '../models/book';
 import {environment} from '../../environment';
-import {Observable} from 'rxjs';
+import {map, Observable, tap} from 'rxjs';
+
+export interface PageEvent {
+  first: number;
+  rows: number;
+  page: number;
+  pageCount: number;
+}
+
+export interface BookPagination  {
+  books: Book[],
+  pageEvent: PageEvent
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class BookService {
+
+  private readonly pageSize = 10;
 
   constructor(private http: HttpClient) { }
 
@@ -15,9 +29,28 @@ export class BookService {
     return this.http.get<Book>(environment.api + 'books/' + id);
   }
 
-  // TODO pagination
-  getBooks(): Observable<Book[]>{
-    return this.http.get<Book[]>(environment.api + 'books');
+  getBooks(page: number): Observable<BookPagination>{
+    return this.http.get(environment.api + 'books', {
+      params: new HttpParams()
+        .set('page', page)
+        .set('size', this.pageSize)
+    }).pipe(
+      map((res: any) => {
+          const pageEvent: PageEvent = {
+            first: 0,
+            rows: 5,
+            page: res.pageable.pageNumber,
+            pageCount: res.totalPages
+          };
+
+          const bookPagination: BookPagination = {
+            books: res.content,
+            pageEvent: pageEvent
+          };
+
+          return bookPagination;
+        })
+    );
   }
 
   createBook(book: Book):Observable<any>{
@@ -25,7 +58,7 @@ export class BookService {
   }
 
   editBook(book: Book): Observable<Book>{
-    return this.http.put<Book>(environment.api + 'books', book);
+    return this.http.put<Book>(environment.api + 'books/' + book.id, book);
   }
 
   deleteBook(id: string | number){

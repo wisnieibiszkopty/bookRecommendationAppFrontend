@@ -8,6 +8,7 @@ import {InputTextModule} from 'primeng/inputtext';
 import {CommentItemComponent, EditedComment} from '../comment-item/comment-item.component';
 import {UserService} from '../../../services/user.service';
 import {NgIf} from '@angular/common';
+import {InputTextareaModule} from 'primeng/inputtextarea';
 
 
 @Component({
@@ -19,7 +20,8 @@ import {NgIf} from '@angular/common';
     Button,
     InputTextModule,
     CommentItemComponent,
-    NgIf
+    NgIf,
+    InputTextareaModule
   ],
   templateUrl: './comments.component.html',
   styleUrl: './comments.component.scss'
@@ -48,6 +50,9 @@ export class CommentsComponent implements OnInit{
 
   addComment(){
     this.commentService.addComment(this.bookId, this.newComment).subscribe(comment => {
+      const user = this.userService.getUser();
+      comment.userId = user?.id!;
+      comment.userName = user?.name!;
       this.comments.update(comments => [...comments, comment]);
       this.newComment = "";
     });

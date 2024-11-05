@@ -1,19 +1,23 @@
 <div>
   @if(isLoggedIn()){
-    <p-toolbar>
+    <p-toolbar class="m-2">
       <div>
         <p-button (onClick)="op.toggle($event); loadShelves()" label="Add to shelve" icon="pi pi-add" />
         <p-overlayPanel #op>
           <div class="flex flex-column gap-3 w-25rem">
             <div>
-              <span class="font-medium text-900 block mb-2">Select shelf</span>
-              <p-listbox
-                [options]="shelves()"
-                [(ngModel)]="selectedShelf"
-                optionLabel="name"
-                [style]="{'width':'15rem'}"
-                [listStyle]="{'max-height': '220px'}" />
-              <p-button (click)="op.toggle($event); addBookToShelf()" label="Add to shelf"></p-button>
+              @if(shelves().length === 0){
+                <h1>You don't have any shelves</h1>
+              } @else{
+                <span class="font-medium text-900 block mb-2">Select shelf</span>
+                <p-listbox
+                  [options]="shelves()"
+                  [(ngModel)]="selectedShelf"
+                  optionLabel="name"
+                  [style]="{'width':'15rem'}"
+                  [listStyle]="{'max-height': '220px'}" />
+                <p-button (click)="op.toggle($event); addBookToShelf()" label="Add to shelf"></p-button>
+              }
             </div>
           </div>
         </p-overlayPanel>
@@ -27,11 +31,15 @@
       }
     </p-toolbar>
   }
-  <div class="flex-container">
-    <div>
-      <app-book-item [book]="book()"></app-book-item>
-      <app-recommendations></app-recommendations>
-    </div>
+  <div>
+    <app-book-item [book]="book()"></app-book-item>
     <app-comments [bookId]="route.snapshot.paramMap.get('id')!"></app-comments >
   </div>
+<!--  <div class="flex-container">-->
+<!--    <div>-->
+<!--      <app-book-item [book]="book()"></app-book-item>-->
+<!--      <app-recommendations></app-recommendations>-->
+<!--    </div>-->
+<!--    <app-comments [bookId]="route.snapshot.paramMap.get('id')!"></app-comments >-->
+<!--  </div>-->
 </div>

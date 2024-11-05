@@ -1,8 +1,11 @@
-<p-card header="{{book?.name}}" subheader="{{book?.author}}" [style]="{ width: '360px' }">
-  <ng-template pTemplate="header">
-    <img alt="Card" src="https://primefaces.org/cdn/primeng/images/card-ng.jpg" />
-  </ng-template>
-  <p>{{ book?.description }}</p>
-  <p>Pages: {{book?.pages}}</p>
-  <p>Release date: {{book?.releaseYear}}</p>
-</p-card>
+<div class="flex mx-10 justify-center">
+  <p-card header="{{book?.name}}" subheader="{{book?.author}}" [style]="{ width: '360px' }">
+    <p>{{ book?.description }}</p>
+    <p>Pages: {{book?.pages}}</p>
+    <p>Release date: {{book?.releaseYear}}</p>
+  </p-card>
+  <div>
+    <img src="{{book?.image ? book?.image : 'placeholder.svg'}}">
+  </div>
+</div>
+

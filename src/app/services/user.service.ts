@@ -5,7 +5,7 @@ import {environment} from '../../environment';
 import {MessageService} from 'primeng/api';
 
 export interface User {
-  id: string;
+  id: number;
   name: string;
   email: string;
 }
