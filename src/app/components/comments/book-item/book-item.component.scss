@@ -1,1 +1,52 @@
+.flex {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 20px;
+}
 
+.book-card {
+  background-color: #ffffff;
+  padding: 20px;
+  width: 360px;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  border-radius: 8px;
+}
+
+.book-title {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-bottom: 0.5em;
+  color: #333;
+}
+
+.book-author {
+  font-size: 1.2em;
+  color: #666;
+  margin-bottom: 1em;
+}
+
+.book-description {
+  font-size: 1em;
+  color: #555;
+  margin-bottom: 1em;
+}
+
+.book-pages,
+.book-release {
+  font-size: 0.9em;
+  color: #777;
+  margin-bottom: 0.5em;
+}
+
+.book-image-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.book-image {
+  max-height: 100%;
+  width: auto;
+  border-radius: 8px;
+}

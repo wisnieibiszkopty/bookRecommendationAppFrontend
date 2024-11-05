@@ -1,4 +1,4 @@
-import {Component, OnInit, signal} from '@angular/core';
+import {Component, OnInit, signal, ViewChild} from '@angular/core';
 import {Button} from "primeng/button";
 import {RouterLink} from '@angular/router';
 import {InplaceModule} from 'primeng/inplace';
@@ -11,6 +11,10 @@ import {CardModule} from 'primeng/card';
 import {DividerModule} from 'primeng/divider';
 import {DialogModule} from 'primeng/dialog';
 import {ShelveComponent} from '../shelve/shelve.component';
+import {ToolbarModule} from 'primeng/toolbar';
+import {ConfirmPopup, ConfirmPopupModule} from 'primeng/confirmpopup';
+import {ConfirmationService, MessageService} from 'primeng/api';
+import {NgClass} from '@angular/common';
 
 @Component({
   selector: 'app-shelves',
@@ -24,7 +28,10 @@ import {ShelveComponent} from '../shelve/shelve.component';
     CardModule,
     DividerModule,
     DialogModule,
-    ShelveComponent
+    ShelveComponent,
+    ToolbarModule,
+    ConfirmPopupModule,
+    NgClass
   ],
   templateUrl: './shelves.component.html',
   styleUrl: './shelves.component.scss'
@@ -37,7 +44,13 @@ export class ShelvesComponent implements OnInit{
   selectedShelf = signal<Shelf | null>(null);
   shelves = signal<Shelf[]>([]);
 
-  constructor(private shelfService: ShelfService, private userService: UserService) {
+  @ViewChild(ConfirmPopup) confirmPopup!: ConfirmPopup;
+
+  constructor(
+    private shelfService: ShelfService,
+    private userService: UserService,
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService) {
   }
 
   ngOnInit() {
@@ -70,6 +83,7 @@ export class ShelvesComponent implements OnInit{
       console.log(shelf);
       this.shelves.update(shelves => shelves.map(s => s.id === shelf.id ? { ...s, ...shelf } : s));
       console.log(this.shelves());
+      //this.selectedShelf.update((uShelf: Shelf) => ({...uShelf, name: shelf.name}));
       this.editingName=false;
     });
   }
@@ -90,6 +104,26 @@ export class ShelvesComponent implements OnInit{
           books: updatedBooks!
         });
       })
+  }
+
+  acceptDeleting(){
+    this.confirmPopup.accept();
+  }
+
+  rejectDeleting(){
+    this.confirmPopup.reject();
+  }
+
+  confirm(event: Event) {
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: 'Are you sure you want to delete this shelf?',
+      accept: () => {
+        this.deleteShelf(this.selectedShelf()!);
+        this.messageService.add({ severity: 'info', summary: 'Deleted', detail: 'Shelf deleted', life: 3000 });
+      },
+      reject: () => {}
+    });
   }
 
 }

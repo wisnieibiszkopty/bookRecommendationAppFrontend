@@ -1,0 +1,50 @@
+.sidebar {
+  width: 250px;
+  color: #ecf0f1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  border: 1px solid #e2e8f0;
+}
+
+.sidebar h2 {
+  font-size: 1.5em;
+  margin-bottom: 20px;
+  color: #334155;
+  text-align: center;
+}
+
+.shelves-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.shelves-list li {
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  color: #334155;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.shelves-list li:hover {
+  background-color: #14b8a6;
+  color: #f1f1f1;
+}
+
+.shelves-list a {
+  color: inherit;
+  text-decoration: none;
+  font-size: 1.1em;
+  font-weight: bold;
+  display: block;
+}
+
+.shelves-list li.active {
+  background-color: #14b8a6;
+  color: #ffffff;
+  transform: translateX(5px); /* Podobny efekt jak przy najechaniu */
+}

@@ -1,4 +1,4 @@
-<p-card header="{{comment?.userName}}  {{comment?.date}}">
+<p-card header="{{comment?.userName}}  {{formatDate(comment?.date!)}}">
   @if(editing()){
     <textarea
       rows="5"
@@ -13,10 +13,22 @@
   @if(loggedIn() && userService.getUser()?.id === comment?.userId){
     @if(!editing()){
       <p-tag (click)="showEditForm()" severity="info" value="Edit" class="mr-2"/>
-      <p-tag (click)="deleteComment()" severity="danger" value="Delete"/>
+      <p-tag (click)="confirm($event)" severity="danger" value="Delete"/>
     } @else {
       <p-tag (click)="editing.set(false)" severity="warning" value="Cancel" class="mr-2"></p-tag>
       <p-tag (click)="editComment()" severity="success" value="Edit"></p-tag>
     }
   }
 </p-card>
+<p-toast />
+<p-confirmPopup #confirmPopupRef>
+  <ng-template pTemplate="headless" let-message let-test>
+    <div class="border-round p-3">
+      <span>{{ message.message }}</span>
+      <div class="flex align-items-center gap-2 mt-3">
+        <p-button (onClick)="acceptDeleting()" label="Delete" size="small" />
+        <p-button (onClick)="rejectDeleting()" label="Cancel" [outlined]="true" size="small" />
+      </div>
+    </div>
+  </ng-template>
+</p-confirmPopup>

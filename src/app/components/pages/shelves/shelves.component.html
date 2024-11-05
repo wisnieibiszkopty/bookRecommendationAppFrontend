@@ -1,31 +1,51 @@
-<p-inplace closable="closable">
-  <ng-template pTemplate="display">
-    <span>Add shelve</span>
-  </ng-template>
-  <ng-template pTemplate="content">
-    <input [(ngModel)]="shelfName" type="text" value="Shelve Name" pInputText />
-    <p-button label="Add" (click)="addShelf()"></p-button>
-  </ng-template>
-</p-inplace>
-<div class="flex">
-  <div class="w-1/10">
-    <p-card header="Your shelves">
-      @for(shelf of shelves(); track shelf){
-        <p (click)="selectShelf(shelf)">{{shelf.name}}</p>
-        <p-divider></p-divider>
-      }
-    </p-card>
-  </div>
-  <div class="w-9/10">
+<!-- Input to add new shelf-->
+<div class="my-3">
+  <p-toolbar>
+    <div>
+      <p-inplace closable="closable">
+        <ng-template pTemplate="display">
+          <p-button label="Add shelve" icon="pi pi-folder-plus"></p-button>
+        </ng-template>
+        <ng-template pTemplate="content">
+          <input [(ngModel)]="shelfName" type="text" value="Shelve Name" pInputText class="mr-2"/>
+          <p-button label="Add" (click)="addShelf()" class="mr-2"></p-button>
+        </ng-template>
+      </p-inplace>
+    </div>
     @if(selectedShelf()){
       <div class="flex">
         <p-button (click)="editShelf()" icon="pi pi-pencil" class="mr-2"/>
-        <p-button (click)="deleteShelf(selectedShelf()!)" icon="pi pi-trash" class="mr-2"/>
+        <p-button (click)="confirm($event)" icon="pi pi-trash" class="mr-2"/>
       </div>
-      <h1>{{selectedShelf()?.name}}</h1>
+    }
+  </p-toolbar>
+</div>
+<!-- List of shelves -->
+<div class="flex">
+  <div class="w-2/10">
+    <div class="sidebar">
+      <h2>Your shelves</h2>
+      <ul class="shelves-list">
+        @for(shelf of shelves(); track shelf){
+          <li (click)="selectShelf(shelf)" [ngClass]="{active: selectedShelf()?.id === shelf.id}">
+            {{ shelf.name }}
+          </li>
+        }
+      </ul>
+    </div>
+<!--    <p-card header="Your shelves">-->
+<!--      @for(shelf of shelves(); track shelf){-->
+<!--        <p (click)="selectShelf(shelf)">{{shelf.name}}</p>-->
+<!--        <p-divider></p-divider>-->
+<!--      }-->
+<!--    </p-card>-->
+  </div>
+  <div class="w-8/10">
+    @if(selectedShelf()){
+      <h1 class="ml-5">{{selectedShelf()?.name}}</h1>
       <app-shelve [books]="selectedShelf()?.books!" (delete)="deleteBookFromShelf($event)"></app-shelve>
     } @else {
-      <h1>No shelf selected</h1>
+      <h1 class="ml-5">No shelf selected</h1>
     }
   </div>
 </div>
@@ -41,3 +61,15 @@
     <p-button label="Edit shelf name" (onClick)="submitEditedShelf()" />
   </div>
 </p-dialog>
+
+<p-confirmPopup #confirmPopupRef>
+  <ng-template pTemplate="headless" let-message let-test>
+    <div class="border-round p-3">
+      <span>{{ message.message }}</span>
+      <div class="flex align-items-center gap-2 mt-3">
+        <p-button (onClick)="acceptDeleting()" label="Delete" size="small" />
+        <p-button (onClick)="rejectDeleting()" label="Cancel" [outlined]="true" size="small" />
+      </div>
+    </div>
+  </ng-template>
+</p-confirmPopup>

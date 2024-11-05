@@ -7,10 +7,16 @@
 
 .book-card {
   width: 250px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
 }
 
 .book-image {
   width: 100%;
   height: auto;
   border-radius: 5px;
+}
+
+.book-card:hover .book-image {
+  transform: scale(0.9);
 }

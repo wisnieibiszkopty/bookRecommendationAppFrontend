@@ -41,6 +41,7 @@ export class BooksListComponent implements OnInit{
   }
 
   ngOnInit() {
+    console.log("init");
     this.loadBooks(this.currentPage);
   }
 

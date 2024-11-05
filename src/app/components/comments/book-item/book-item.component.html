@@ -1,11 +1,12 @@
-<div class="flex mx-10 justify-center">
-  <p-card header="{{book?.name}}" subheader="{{book?.author}}" [style]="{ width: '360px' }">
-    <p>{{ book?.description }}</p>
-    <p>Pages: {{book?.pages}}</p>
-    <p>Release date: {{book?.releaseYear}}</p>
-  </p-card>
-  <div>
-    <img src="{{book?.image ? book?.image : 'placeholder.svg'}}">
+<div class="flex mx-10 justify-center items-stretch gap-4">
+  <div class="book-card">
+    <h2 class="book-title">{{ book?.name }}</h2>
+    <h3 class="book-author">{{ book?.author }}</h3>
+    <p class="book-description">{{ book?.description }}</p>
+    <p class="book-pages">Pages: {{ book?.pages }}</p>
+    <p class="book-release">Release date: {{ book?.releaseYear }}</p>
+  </div>
+  <div class="book-image-container">
+    <img src="{{book?.image ? book?.image : 'placeholder.svg'}}" alt="{{book?.name}}" class="book-image">
   </div>
 </div>
-
