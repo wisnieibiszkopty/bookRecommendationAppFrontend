@@ -49,7 +49,7 @@ export class BooksListComponent implements OnInit{
     this.bookService.getBooks(page - 1).subscribe(booksPagination => {
       console.log(booksPagination);
       this.books.set(booksPagination.books);
-      this.totalRecords = booksPagination.pageEvent.pageCount * 2;
+      this.totalRecords = booksPagination.totalElements;
     })
   }
 

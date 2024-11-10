@@ -11,9 +11,10 @@ export interface PageEvent {
   pageCount: number;
 }
 
-export interface BookPagination  {
+export interface BookPagination {
   books: Book[],
-  pageEvent: PageEvent
+  pageEvent: PageEvent,
+  totalElements: number;
 }
 
 @Injectable({
@@ -21,7 +22,7 @@ export interface BookPagination  {
 })
 export class BookService {
 
-  private readonly pageSize = 10;
+  private readonly pageSize = 6;
 
   constructor(private http: HttpClient) { }
 
@@ -36,16 +37,18 @@ export class BookService {
         .set('size', this.pageSize)
     }).pipe(
       map((res: any) => {
+        console.log(res);
           const pageEvent: PageEvent = {
             first: 0,
-            rows: 5,
+            rows: 6,
             page: res.pageable.pageNumber,
             pageCount: res.totalPages
           };
 
           const bookPagination: BookPagination = {
             books: res.content,
-            pageEvent: pageEvent
+            pageEvent: pageEvent,
+            totalElements: res.totalElements
           };
 
           return bookPagination;

@@ -13,6 +13,10 @@ import {EditRecommendationComponent} from './components/pages/edit-recommendatio
 
 export const routes: Routes = [
     {
+      path: '',
+      component: BooksListComponent
+    },
+    {
       path: 'books',
       component: BooksListComponent
     },
